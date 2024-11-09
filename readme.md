@@ -2,11 +2,15 @@
 A simple, asynchronous post attachments downloader for kemono.su
 
 ## Installation & How to use
-1. Check if your python3 version is higher than 3.5.3. If not, install the latest version.
+0. Check if your python3 version is higher than 3.5.3. If not, install the latest version.
 ```shell
 python --version
 ```
 > Python interpreters that earlier than 3.5.3 do not support **aiohttp**
+1. Clone this repo
+```shell
+git clone https://github.com/RDR2Blackwater/KemonoHandler
+```
 2. Install required packages
 ```shell
 pip install -r requirements.txt
