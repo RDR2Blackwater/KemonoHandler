@@ -31,7 +31,7 @@ def post_main_handler(args: argparse.Namespace) -> None:
 
             # Check if the title contains excluded words
             if args.exclude_words is not None and not utils.title_checker(posts["title"], args.exclude_words):
-                print(posts["title"] + "Contains excluded words, skipping post...")
+                print(posts["title"] + " Contains excluded words, skipping post...")
                 continue
 
             # Pre-process the names in attachments
