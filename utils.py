@@ -31,6 +31,7 @@ def attachments_handler(attachments: list[dict], title: str, publish_date: str) 
     Parameters:
     - attachments: list[dict], list of attachments names and relative paths
     - title: str, title of the post
+    - publish_date: str, publish date of the post
     """
     # Index counter, record the index of the files in attachments
     file_counter = 0
