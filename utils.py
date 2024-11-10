@@ -39,7 +39,7 @@ def attachments_handler(attachments: list[dict], title: str, publish_date: str) 
     for attachment in attachments:
         file_prefix = attachment["name"].split(".")[-1]
         # Rename the raw file name to make the files sorted easier for system
-        attachment["name"] = publish_date + "_" + title.replace('\\', '').replace('/', '') + "_" + str(file_counter) + "." + file_prefix
+        attachment["name"] = publish_date.split("T")[0] + "_" + title.replace('\\', '').replace('/', '') + "_" + str(file_counter) + "." + file_prefix
         file_counter += 1
 
     return attachments
