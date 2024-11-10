@@ -75,4 +75,4 @@ No.
 
 All attachments are saved in the folder with the name of creators like `Exga`, which is in the same root path of the script.
 
-> Attachments are renamed before download using the format **{post date}_{post title}_{index}.{attachment_prefix}**. However, to avoid unpredictable path errors, invalid characters in the post title will be removed.
+> Attachments are renamed before download using the format **{post date}\_{post title}\_{index}.{attachment_prefix}**. However, to avoid unpredictable path errors, invalid characters in the post title will be removed.
