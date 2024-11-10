@@ -37,7 +37,7 @@ def post_main_handler(args: argparse.Namespace) -> None:
             # Pre-process the names in attachments
             posts_link = posts["attachments"]
             print(posts["title"] + " has " + str(len(posts_link)) + " attachments")
-            posts_link = utils.attachments_handler(posts_link, posts["title"])
+            posts_link = utils.attachments_handler(posts_link, posts["title"], posts["published"])
 
             # Run the asynchronous download function
             asyncio.run(utils.download_resources(args.max_async_download, posts_link, folder, args.cookies))

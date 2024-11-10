@@ -24,7 +24,7 @@ def post_getter(service: str, creator_id: str, api_server: str, offset: int) -> 
     return response.json() if len(response.json()) != 0 else None
 
 
-def attachments_handler(attachments: list[dict], title: str) -> list[dict]:
+def attachments_handler(attachments: list[dict], title: str, publish_date: str) -> list[dict]:
     """
     Rename files and return the list with ordered file name
 
@@ -38,7 +38,7 @@ def attachments_handler(attachments: list[dict], title: str) -> list[dict]:
     for attachment in attachments:
         file_prefix = attachment["name"].split(".")[-1]
         # Rename the raw file name to make the files sorted easier for system
-        attachment["name"] = title.replace('\\', '').replace('/', '') + "_" + str(file_counter) + "." + file_prefix
+        attachment["name"] = publish_date + "_" + title.replace('\\', '').replace('/', '') + "_" + str(file_counter) + "." + file_prefix
         file_counter += 1
 
     return attachments
