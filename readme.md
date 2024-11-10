@@ -2,11 +2,15 @@
 A simple, asynchronous post attachments downloader for kemono.su
 
 ## Installation & How to use
-1. Check if your python3 version is higher than 3.5.3. If not, install the latest version.
+0. Check if your python3 version is higher than 3.5.3. If not, install the latest version.
 ```shell
 python --version
 ```
 > Python interpreters that earlier than 3.5.3 do not support **aiohttp**
+1. Clone this repo
+```shell
+git clone https://github.com/RDR2Blackwater/KemonoHandler
+```
 2. Install required packages
 ```shell
 pip install -r requirements.txt
@@ -69,6 +73,6 @@ No.
 
 * Where are the downloaded attachments saved?
 
-All attachments are saved in the folder `creator_name` like `Exga`, which is in the same folder of the script.
+All attachments are saved in the folder with the name of creators like `Exga`, which is in the same root path of the script.
 
 > Attachments are renamed before download using the format **{post title}_{index}.{attachment_prefix}**. However, to avoid unpredictable path errors, the backslash in the post title is removed.
