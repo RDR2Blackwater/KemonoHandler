@@ -41,17 +41,19 @@ python main.py --service "fantia" --creator-id "114514" --cookies "Input your co
 - Max allowed asynchronous download threads (default: 3)
 
 ### `--api-server`
-- (Optional) Target api server to request (default: kemono)
+- Target api server to request (default: kemono)
 
 ### `--publish-date-before`
-- (Optional) Filter the posts before the specified date, format of the date should be YYYY-MM-DD
+- Filter the posts before the specified date, format of the date should be YYYY-MM-DD
 
 ### `--publish-date-after`
-- (Optional) Filter the posts after the specified date, format of the date should be YYYY-MM-DD
+- Filter the posts after the specified date, format of the date should be YYYY-MM-DD
 
 ### `--exclude-words`
-- (Optional) Exclude posts that contains given words in title, split words by ","
+- Exclude posts that contains given words in title, split words by ","
 
+### `--timeout`
+- Max allowed download time in seconds (default: 3600)
 
 ## FaQ
 * How could I know the id/service of creator?

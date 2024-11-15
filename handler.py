@@ -1,6 +1,6 @@
 import argparse
 import asyncio
-
+from async_downloader import async_downloader
 import utils
 
 
@@ -15,6 +15,9 @@ def post_main_handler(args: argparse.Namespace) -> None:
     # Construct the date from args.publish_date_before and args.publish_date_after
     publish_date_before = utils.date_handler(args.publish_date_before, "%Y-%m-%d")
     publish_date_after = utils.date_handler(args.publish_date_after, "%Y-%m-%d")
+
+    # Initialize asynchronous downloader
+    downloader = async_downloader(args.max_async_download, args.timeout, args.cookies)
 
     # Loop the download process until the response is None
     while res is not None:
@@ -40,7 +43,7 @@ def post_main_handler(args: argparse.Namespace) -> None:
             posts_link = utils.attachments_handler(posts_link, posts["title"], posts["published"])
 
             # Run the asynchronous download function
-            asyncio.run(utils.download_resources(args.max_async_download, posts_link, folder, args.cookies))
+            asyncio.run(downloader.download_resources(posts_link, folder))
 
         # Get the next 50 posts, if available
         offset_counter += 1

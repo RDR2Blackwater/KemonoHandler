@@ -18,6 +18,8 @@ parser.add_argument("--publish-date-after", type=str, default=None,
                     help="(Optional) Filter the posts after the specified date, format of the date should be YYYY-MM-DD")
 parser.add_argument("--exclude-words", type=str, default=None,
                     help="(Optional) Exclude posts that contains given words in title, split words by \",\"")
+parser.add_argument("--timeout", type=int, default=3600,
+                    help="(Optional) Max allowed download time in seconds (default: 3600)")
 
 if __name__ == '__main__':
     args = parser.parse_known_args()[0]
