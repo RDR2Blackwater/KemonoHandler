@@ -7,25 +7,25 @@ from pathlib import Path
 
 
 class async_downloader:
-    __slots__ = 'semaphore', 'client_timeout', 'cookies'
+    __slots__ = 'client_timeout', 'cookies', 'max_async_download'
 
     def __init__(self,
-                 max_async_download: int,
                  timeout: int,
-                 cookies: str):
+                 cookies: str,
+                 max_async_download: int):
         """
         Initialize the async_downloader class.
 
-        - max_async_download: int, max allowed asynchronous download threads at a time.
         - timeout: int, download will throw an asyncio.exceptions.TimeoutError after given timeout limit.
         - cookies: str, cookie to be sent in the request.
+        - max_async_download: int, max allowed asynchronous download threads at a time.
         """
-        # Create a semaphore to limit concurrent downloads
-        self.semaphore = asyncio.Semaphore(max_async_download)
         # Define timeout settings for aiohttp requests
         self.client_timeout = aiohttp.ClientTimeout(total=timeout)
         # Cookie used in download
         self.cookies = cookies
+        # Semaphore size of the class
+        self.max_async_download = max_async_download
 
     # Asynchronous downloader
     async def __download_file(self,
@@ -54,6 +54,8 @@ class async_downloader:
         - posts_link: list[dict], list of dictionaries containing 'name' and 'path' for each file.
         - download_folder: str, the local folder path to save downloaded files.
         """
+        # Create a semaphore to limit concurrent downloads
+        semaphore = asyncio.Semaphore(self.max_async_download)
 
         # Define a task to download a single file, respecting the semaphore limit
         async def download_task(tmp_session, file_info):
@@ -63,7 +65,7 @@ class async_downloader:
                 print(f"File '{file_info['name']}' already exists. Skipping download.")
                 return
 
-            async with self.semaphore:
+            async with semaphore:
                 url = f"https://kemono.su/{file_info['path'].lstrip('/')}"  # Ensure relative paths are correctly joined
                 await self.__download_file(tmp_session, url, file_path)
 

@@ -17,7 +17,7 @@ def post_main_handler(args: argparse.Namespace) -> None:
     publish_date_after = utils.date_handler(args.publish_date_after, "%Y-%m-%d")
 
     # Initialize asynchronous downloader
-    downloader = async_downloader(args.max_async_download, args.timeout, args.cookies)
+    downloader = async_downloader(args.timeout, args.cookies, args.max_async_download)
 
     # Loop the download process until the response is None
     while res is not None:
