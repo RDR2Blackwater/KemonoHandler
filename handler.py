@@ -1,6 +1,8 @@
 import argparse
 import asyncio
+import sys
 from async_downloader import async_downloader
+
 import utils
 
 
@@ -18,6 +20,11 @@ def post_main_handler(args: argparse.Namespace) -> None:
 
     # Initialize asynchronous downloader
     downloader = async_downloader(args.timeout, args.cookies, args.max_async_download)
+
+    # For Windows, it is necessary to set the loop policy to avoid WinError 121
+    if sys.platform.startswith("win"):
+        policy = asyncio.WindowsSelectorEventLoopPolicy()
+        asyncio.set_event_loop_policy(policy)
 
     # Loop the download process until the response is None
     while res is not None:
