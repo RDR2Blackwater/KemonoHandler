@@ -53,7 +53,7 @@ python main.py --service "fantia" --creator-id "114514" --cookies "Input your co
 - Exclude posts that contains given words in title, split words by ","
 
 ### `--timeout`
-- Max allowed download time in seconds (default: 3600)
+- Max allowed download time in seconds (default: 360)
 
 ## FaQ
 * How could I know the id/service of creator?
