@@ -21,7 +21,7 @@ def post_getter(service: str, creator_id: str, api_server: str, offset: int) -> 
                             headers={"accept": "application/json"})
 
     # user API would not return 4xx even if the search result is null, return a None explicitly if no data in response
-    return response.json() if len(response.json()) != 0 else None
+    return response.json() if len(response.json()) != 0 and response.status_code == 200 else None
 
 
 def attachments_handler(attachments: list[dict], title: str, publish_date: str) -> list[dict]:
