@@ -66,7 +66,7 @@ class async_downloader:
                 return
 
             async with semaphore:
-                url = f"https://kemono.su/{file_info['path'].lstrip('/')}"  # Ensure relative paths are correctly joined
+                url = f"https://img.kemono.su/thumbnail/data/{file_info['path'].lstrip('/')}"  # Ensure relative paths are correctly joined
                 await self.__download_file(tmp_session, url, file_path)
 
         # Create an aiohttp session and download all files
