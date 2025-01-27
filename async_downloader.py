@@ -1,6 +1,8 @@
 import aiohttp
 import asyncio
 import os
+import time
+import random
 
 from tqdm.asyncio import tqdm
 from pathlib import Path
@@ -26,23 +28,29 @@ class async_downloader:
         self.cookies = cookies
         # Semaphore size of the class
         self.max_async_download = max_async_download
+        # Initialize random seed
+        random.seed(time.time())
 
     # Asynchronous downloader
     async def __download_file(self,
                               session: aiohttp.ClientSession,
                               url: str,
-                              file_path: str) -> None:
+                              file_path: str) -> bool:
         """
         Helper function to download a single file asynchronously.
+        Returns True if successful, False otherwise.
         """
         try:
+            # Introduce a random delay between 1 and 3000 milliseconds
+            await asyncio.sleep(random.uniform(0.001, 3))
             async with session.get(url, cookies={"session": self.cookies}, timeout=self.client_timeout) as response:
                 response.raise_for_status()  # Raise an error for bad responses
                 with open(file_path, "wb") as f:
                     f.write(await response.read())
-        except (asyncio.TimeoutError, asyncio.exceptions.TimeoutError):
-            print("Downloading file took too long, exiting...")
-            exit(1)
+            return True
+        except (asyncio.TimeoutError, asyncio.exceptions.TimeoutError, aiohttp.ClientResponseError):
+            print(f"Failed to download {url}: Downloading took too long or received invalid response.")
+            return False
 
     async def download_resources(self,
                                  posts_link: list[dict[str, str]],
@@ -71,10 +79,19 @@ class async_downloader:
                 which cannot be redirected by kemono.su in some case
                 '''
                 if file_info["path"].split(".")[-1] in ("jpg", "jpeg", "png"):
-                    url = f"https://img.kemono.su/thumbnail/data/{file_info['path'].lstrip('/')}"
+                    urls_to_try = [
+                        f"https://img.kemono.su/thumbnail/data/{file_info['path'].lstrip('/')}",
+                        f"https://kemono.su/{file_info['path'].lstrip('/')}"
+                    ]
                 else:
-                    url = f"https://kemono.su/{file_info['path'].lstrip('/')}"
-                await self.__download_file(tmp_session, url, file_path)
+                    urls_to_try = [f"https://kemono.su/{file_info['path'].lstrip('/')}"]
+
+                for url in urls_to_try:
+                    success = await self.__download_file(tmp_session, url, file_path)
+                    if success:
+                        break
+                else:
+                    print(f"Failed to download {file_info['name']} from all URLs.")
 
         # Create an aiohttp session and download all files
         async with aiohttp.ClientSession(timeout=self.client_timeout) as session:
